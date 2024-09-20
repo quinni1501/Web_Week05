@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>AdminHome</title>
+<title>ManagerHome</title>
 </head>
 <body>
 	<c:choose>
