@@ -40,7 +40,7 @@ button:hover {
 	<h1>Welcome To My Web</h1>
 
 	<!-- Nút Đăng xuất -->
-	<form action="/logout" method="post">
+	<form action="${pageContext.request.contextPath}/logout" method="post">
 		<button type="submit">Đăng xuất</button>
 	</form>
 </body>

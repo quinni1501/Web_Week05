@@ -23,7 +23,7 @@
 					<li><a
 						href="${pageContext.request.contextPath
 }/member/myaccount">${sessionScope.account.fullname}</a>
-						| <a href="/logout">Đăng Xuất</a></li>
+						| <a href="${pageContext.request.contextPath}/logout">Đăng Xuất</a></li>
 					<li><i class="search fa fa-search search-button"></i></li>
 				</ul>
 			</div>
