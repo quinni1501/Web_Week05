@@ -82,4 +82,12 @@ public class UserServiceImpl implements IUserService {
 		return userDao.checkExistPhone(phone);
 	}
 
+	@Override
+	public void restPassword(UserModel user) {
+		userDao.resetPassword(user);
+		
+	}
+
+	
+
 }

@@ -17,5 +17,6 @@ public interface IUserService {
 	boolean checkExistUsername(String username);
 
 	boolean checkExistPhone(String phone);
+	void restPassword(UserModel user);
 
 }

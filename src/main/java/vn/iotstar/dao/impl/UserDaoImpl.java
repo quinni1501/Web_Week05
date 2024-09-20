@@ -115,6 +115,30 @@ public class UserDaoImpl implements IUserDao {
 		return false;
 	}
 
+	@Override
+	public void resetPassword(UserModel user) {
+		String sql = "UPDATE Table_1 SET password = ? WHERE username = ?";
+		try {
+			conn = new DBConnectSQL().getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, user.getPassword()); 
+			ps.setString(2, user.getUsername()); 
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
 	/*
 	 * public static void main(String[] args) {
 	 * 
