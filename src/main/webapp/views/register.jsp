@@ -1,77 +1,90 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<html>
-<head>
-<title>Tạo tài khoản mới</title>
-<style>
-body {
-	font-family: Arial, sans-serif;
-}
+<!-- BEGIN CONTENT -->
+<div class="col-md-9 col-sm-9">
+	<h1>Create an account</h1>
+	<div class="content-form-page">
+		<div class="row">
+			<div class="col-md-7 col-sm-7">
+				<form class="form-horizontal" role="form"
+					action="${pageContext.request.contextPath}/register" method="post">
+					<fieldset>
+						<legend>Your personal details</legend>
+						<div class="form-group">
+							<label for="username" class="col-lg-4 control-label">Username
+								<span class="require">*</span>
+							</label>
+							<div class="col-lg-8">
+								<input type="text" class="form-control" id="username"
+									name="username"
+									value="${param.username}" required />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="fullname" class="col-lg-4 control-label">Full
+								Name<span class="require">*</span>
+							</label>
+							<div class="col-lg-8">
+								<input type="text" class="form-control" id="fullname"
+									name="fullname" required />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="email" class="col-lg-4 control-label">Email<span class="require">*</span>
+							</label>
+							<div class="col-lg-8">
+								<input type="text" class="form-control" id="email" name="email"
+									required />
+							</div>
+						</div>
+					</fieldset>
+					<fieldset>
+						<legend>Your password</legend>
+						<div class="form-group">
+							<label for="fullname" class="col-lg-4 control-label">Password<span class="require">*</span>
+							</label>
+							<div class="col-lg-8">
+								<input type="text" class="form-control" id="password" name="password"
+									required />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="confirm_password" class="col-lg-4 control-label">Confirm Password<span class="require">*</span>
+							</label>
+							<div class="col-lg-8">
+								<input type="text" class="form-control" id="confirm_password" name="confirm_password"
+									required />
+							</div>
+						</div>
+					</fieldset>
+					
+					<div class="row">
+						<div
+							class="col-lg-8 col-md-offset-4 padding-left-0 padding-top-20">
+							<button type="submit" class="btn btn-primary">Create an
+								account</button>
+							<button type="button" class="btn btn-default" onclick="window.location.href='${pageContext.request.contextPath}/login'">Cancel</button>
 
-.form-container {
-	width: 300px;
-	margin: auto;
-	padding: 20px;
-	border: 1px solid #ccc;
-	background-color: #f9f9f9;
-	border-radius: 8px;
-}
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-4 col-sm-4 pull-right">
+				<div class="form-info">
+					<h2>
+						<em>Important</em> Information
+					</h2>
+					<p>Lorem ipsum dolor ut sit ame dolore adipiscing elit, sed sit
+						nonumy nibh sed euismod ut laoreet dolore magna aliquarm erat sit
+						volutpat. Nostrud exerci tation ullamcorper suscipit lobortis nisl
+						aliquip commodo quat.</p>
 
-input[type=text], input[type=password], input[type=email], input[type=tel]
-	{
-	width: 100%;
-	padding: 10px;
-	margin: 8px 0;
-	box-sizing: border-box;
-}
+					<p>Duis autem vel eum iriure at dolor vulputate velit esse vel
+						molestie at dolore.</p>
 
-input[type=submit] {
-	width: 100%;
-	background-color: #007BFF;
-	color: white;
-	padding: 10px;
-	border: none;
-	border-radius: 4px;
-}
-
-input[type=submit]:hover {
-	background-color: #0056b3;
-}
-
-.alert {
-	color: red;
-	text-align: center;
-}
-</style>
-</head>
-<body>
-	<div class="form-container">
-		<h2>Tạo tài khoản mới</h2>
-
-		<c:if test="${not empty alert}">
-			<div class="alert">${alert}</div>
-		</c:if>
-
-		<form action="${pageContext.request.contextPath}/register"
-			method="post">
-			<label for="username">Tên tài khoản</label> <input type="text"
-				id="username" name="username" required> <label
-				for="fullname">Họ tên</label> <input type="text" id="fullname"
-				name="fullname" required> <label for="email">Nhập
-				Email</label> <input type="email" id="email" name="email" required>
-
-			<label for="phone">Số điện thoại</label> <input type="tel" id="phone"
-				name="phone" required> <label for="password">Mật
-				khẩu</label> <input type="password" id="password" name="password" required>
-
-			<label for="confirm_password">Nhập lại mật khẩu</label> <input
-				type="password" id="confirm_password" name="confirm_password"
-				required> <input type="submit" value="Tạo tài khoản">
-		</form>
-		<p>
-			Nếu bạn đã có tài khoản? <a
-				href="/Week05/login">Đăng nhập</a>
-		</p>
-
+					<button type="button" class="btn btn-default">More details</button>
+				</div>
+			</div>
+		</div>
 	</div>
-</body>
-</html>
+</div>
+<!-- END CONTENT -->

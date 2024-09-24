@@ -1,129 +1,102 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Đăng nhập</title>
-<style>
-/* Bordered form */
-form {
-	border: 3px solid #f1f1f1;
-}
+<!-- BEGIN CONTENT -->
+<div class="col-md-9 col-sm-9">
+	<h1>Login</h1>
+	<div class="content-form-page">
+		<div class="row">
+			<div class="col-md-7 col-sm-7">
+				<form class="form-horizontal form-without-legend" role="form"
+					action="${pageContext.request.contextPath}/login" method="post">
+					<c:if test="${alert != null}">
+						<div class="form-group">
+							<div class="col-lg-8 col-lg-offset-4">
+								<p
+									style="font-family: 'Calibri', sans-serif; font-size: 16px; color: red;">
+									${alert}</p>
+							</div>
+						</div>
+					</c:if>
+					<div class="form-group">
+						<label for="username" class="col-lg-4 control-label">Username
+							<span class="require">*</span>
+						</label>
+						<div class="col-lg-8">
+							<input type="text" class="form-control" id="username"
+								placeholder="Enter Username" name="username"
+								value="${param.username}" required />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="password" class="col-lg-4 control-label">Password
+							<span class="require">*</span>
+						</label>
+						<div class="col-lg-8">
+							<input type="text" class="form-control" id="password"
+								placeholder="Enter Password" name="password" required>
 
-/* Full-width inputs */
-input[type=text], input[type=password] {
-	width: 100%;
-	padding: 12px 20px;
-	margin: 8px 0;
-	display: inline-block;
-	border: 1px solid #ccc;
-	box-sizing: border-box;
-}
+						</div>
 
-/* Set a style for all buttons */
-button {
-	background-color: #04AA6D;
-	color: white;
-	padding: 14px 20px;
-	margin: 8px 0;
-	border: none;
-	cursor: pointer;
-	width: 100%;
-}
+					</div>
 
-/* Add a hover effect for buttons */
-button:hover {
-	opacity: 0.8;
-}
+					<div class="row">
+						<div class="col-lg-8 col-md-offset-4">
+							<!-- Flexbox for alignment with a smaller left margin -->
+							<div
+								style="display: flex; justify-content: space-between; align-items: center; margin-left: -9px;">
+								<label><input type="checkbox" name="remember">
+									Remember me</label> <a
+									href="${pageContext.request.contextPath}/forgot-password">Forgot
+									Password?</a>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div
+							class="col-lg-8 col-md-offset-4 padding-left-0 padding-top-20">
+							<button type="submit" class="btn btn-primary">Login</button>
+							<a href="${pageContext.request.contextPath}/register"
+								class="btn btn-default">Register</a>
+						</div>
+					</div>
+					<div class="row">
+						<div
+							class="col-lg-8 col-md-offset-4 padding-left-0 padding-top-10 padding-right-30">
+							<hr>
+							<div class="login-socio">
+								<p class="text-muted">or login using:</p>
+								<ul class="social-icons">
+									<li><a href="#" data-original-title="facebook"
+										class="facebook" title="facebook"></a></li>
+									<li><a href="#" data-original-title="Twitter"
+										class="twitter" title="Twitter"></a></li>
+									<li><a href="#" data-original-title="Google Plus"
+										class="googleplus" title="Google Plus"></a></li>
+									<li><a href="#" data-original-title="Linkedin"
+										class="linkedin" title="LinkedIn"></a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-4 col-sm-4 pull-right">
+				<div class="form-info">
+					<h2>
+						<em>Important</em> Information
+					</h2>
+					<p>Duis autem vel eum iriure at dolor vulputate velit esse vel
+						molestie at dolore.</p>
 
-/* Extra style for the cancel button (red) */
-.cancelbtn {
-	width: auto;
-	padding: 10px 18px;
-	background-color: #f44336;
-}
-
-/* Center the avatar image inside this container */
-.imgcontainer {
-	text-align: center;
-	margin: 24px 0 12px 0;
-}
-
-/* Avatar image */
-img.avatar {
-	width: 40%;
-	border-radius: 50%;
-}
-
-/* Add padding to containers */
-.container {
-	padding: 16px;
-}
-
-/* The "Forgot password" text */
-span.psw {
-	float: right;
-	padding-top: 16px;
-}
-
-/* Change styles for span and cancel button on extra small screens */
-@media screen and (max-width: 300px) {
-	span.psw {
-		display: block;
-		float: none;
-	}
-	.cancelbtn {
-		width: 100%;
-	}
-}
-
-/* Alert message styling */
-.alert {
-	color: red;
-	font-weight: bold;
-	text-align: center;
-}
-</style>
-</head>
-<body>
-
-	<form action="${pageContext.request.contextPath}/login" method="post">
-		<div class="imgcontainer">
-			<img src="img_avatar2.png" alt="Avatar" class="avatar">
+					<button type="button" class="btn btn-default">More details</button>
+				</div>
+			</div>
 		</div>
+	</div>
+</div>
+<!-- END CONTENT -->
 
-		<div class="container">
-			<label for="uname"><b>Username</b></label> <input type="text"
-				placeholder="Enter Username" name="username"
-				value="${param.username}" required> <label for="password"><b>Password</b></label>
-			<input type="password" placeholder="Enter Password" name="password"
-				required>
 
-			<button type="submit">Login</button>
 
-			<label> <input type="checkbox" name="remember">
-				Remember me
-			</label>
-		</div>
 
-		<div class="container" style="background-color: #f1f1f1">
-			<button type="button" class="cancelbtn">Cancel</button>
-			<span class="psw">Forgot <a
-				href="${pageContext.request.contextPath}/forgot-password">password?</a></span>
-		</div>
 
-		<!-- Add Sign up section -->
-		<div class="container" style="background-color: #f1f1f1">
-			<button type="button"
-				onclick="window.location.href='${pageContext.request.contextPath}/register'">Sign
-				Up</button>
-		</div>
-	</form>
-
-	<c:if test="${alert != null}">
-		<h3 class="alert">${alert}</h3>
-	</c:if>
-</body>
-</html>

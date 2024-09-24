@@ -1,64 +1,90 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Quên Mật Khẩu</title>
-<style>
-body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-	flex-direction: column;
-	font-family: Arial, sans-serif;
-	background-color: #f0f0f0;
-}
 
-form {
-	display: flex;
-	flex-direction: column;
-	width: 300px;
-}
+<!-- BEGIN CONTENT -->
+<div class="col-md-9 col-sm-9">
+	<h1>Forgot Your Password?</h1>
+	<div class="content-form-page">
+		<div class="row">
+			<div class="col-md-7 col-sm-7">
+				<form class="form-horizontal" role="form"
+					action="${pageContext.request.contextPath}/forgot-password"
+					method="post">
 
-input {
-	margin-bottom: 10px;
-	padding: 10px;
-	font-size: 16px;
-}
+					<!-- Display error messages if any -->
+					<c:if test="${error != null}">
+						<div class="form-group">
+							<div class="col-lg-8 col-lg-offset-4">
+								<p
+									style="font-family: 'Calibri', sans-serif; font-size: 16px; color: red;">
+									${error}</p>
+							</div>
+						</div>
+					</c:if>
 
-button {
-	padding: 10px;
-	background-color: #007bff;
-	color: white;
-	border: none;
-	cursor: pointer;
-	border-radius: 5px;
-	font-size: 16px;
-}
+					<!-- Reset password form -->
+					<fieldset>
+						<legend>Reset your password</legend>
 
-button:hover {
-	background-color: #0056b3;
-}
+						<!-- Username field -->
+						<div class="form-group">
+							<label for="username" class="col-lg-4 control-label">Username
+								<span class="require">*</span>
+							</label>
+							<div class="col-lg-8">
+								<input type="text" class="form-control" id="username"
+									name="username" placeholder="Username"
+									value="${param.username}" required />
+							</div>
+						</div>
 
-.error {
-	color: red;
-}
-</style>
-</head>
-<body>
-	<h1>Quên Mật Khẩu</h1>
-	<form action="${pageContext.request.contextPath}/forgot-password"
-		method="post">
-		<input type="text" name="username" placeholder="Tên đăng nhập"
-			required> <input type="password" name="newPassword"
-			placeholder="Mật khẩu mới" required> <input type="password"
-			name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
-		<button type="submit">Đặt lại mật khẩu</button>
-	</form>
-	<c:if test="${not empty error}">
-		<div class="error">${error}</div>
-	</c:if>
-</body>
-</html>
+						<!-- New password field -->
+						<div class="form-group">
+							<label for="newPassword" class="col-lg-4 control-label">New
+								Password <span class="require">*</span>
+							</label>
+							<div class="col-lg-8">
+								<input type="password" class="form-control" id="newPassword"
+									name="newPassword" placeholder="New password" required />
+							</div>
+						</div>
+
+						<!-- Confirm new password field -->
+						<div class="form-group">
+							<label for="confirmPassword" class="col-lg-4 control-label">Confirm
+								New Password <span class="require">*</span>
+							</label>
+							<div class="col-lg-8">
+								<input type="password" class="form-control" id="confirmPassword"
+									name="confirmPassword" placeholder="Confirm password" required />
+							</div>
+						</div>
+					</fieldset>
+
+					<!-- Submit and cancel buttons -->
+					<div class="row">
+						<div
+							class="col-lg-8 col-md-offset-4 padding-left-0 padding-top-20">
+							<button type="submit" class="btn btn-primary">Reset
+								Password</button>
+							<button type="button" class="btn btn-default"
+								onclick="window.location.href='${pageContext.request.contextPath}/login'">Cancel</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			
+			<div class="col-md-4 col-sm-4 pull-right">
+				
+                  <div class="form-info">
+                    <h2><em>Important</em> Information</h2>
+                    <p>Enter the e-mail address associated with your account. Click submit to have your password e-mailed to you.</p>
+
+                    <button type="button" class="btn btn-default">More details</button>
+                  </div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END CONTENT -->

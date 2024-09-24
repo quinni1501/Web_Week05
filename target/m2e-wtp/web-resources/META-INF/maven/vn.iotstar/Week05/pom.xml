@@ -47,6 +47,12 @@
 			<version>9.4.1.jre8</version>
 		</dependency>
 
+		<!-- ... other dependencies -->
+		<dependency>
+			<groupId>org.sitemesh</groupId>
+			<artifactId>sitemesh</artifactId>
+			<version>3.2.1</version>
+		</dependency>
 
 	</dependencies>
 
