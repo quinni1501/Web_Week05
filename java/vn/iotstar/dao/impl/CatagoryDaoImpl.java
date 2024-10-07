@@ -129,7 +129,7 @@ public class CatagoryDaoImpl implements ICategoryDao {
 
 	@Override
 	public void update(CategoryModel category) {
-		String sql = "update categories set categoryname=?,images=?,status=?";
+		String sql = "update categories set categoryname=?,images=?,status=? where categoryid=?";
 
 		try {
 			conn = new DBConnectSQL().getConnection();
@@ -137,6 +137,7 @@ public class CatagoryDaoImpl implements ICategoryDao {
 			ps.setString(1, category.getCategoryname());
 			ps.setString(2, category.getImages());
 			ps.setInt(3, category.getStatus());
+			ps.setInt(4, category.getCategoryid());
 			ps.executeUpdate();
 
 			conn.close();

@@ -16,8 +16,11 @@ import jakarta.servlet.http.Part;
 import vn.iotstar.models.CategoryModel;
 import vn.iotstar.services.ICategoryService;
 import vn.iotstar.services.impl.CategoryServiceImpl;
+import vn.iotstar.utils.Constants;
 
-@MultipartConfig()
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, // 1MB
+		maxFileSize = 1024 * 1024 * 5, // 5MB
+		maxRequestSize = 1024 * 1024 * 5 * 5)
 @WebServlet(urlPatterns = { "/admin/categories", "/admin/category/add", "/admin/category/insert",
 		"/admin/category/delete", "/admin/category/edit", "/admin/category/update" })
 public class CategoryController extends HttpServlet {
@@ -52,105 +55,108 @@ public class CategoryController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("UTF-8");
-		resp.setCharacterEncoding("UTF-8");
-		String url = req.getRequestURI();
-		if (url.contains("/admin/category/insert")) {
-			// lay du lieu tu view
-			String categoryname = req.getParameter("categoryname");
-			int status = Integer.parseInt(req.getParameter("status"));
-			String images = req.getParameter("images");
+		 req.setCharacterEncoding("UTF-8");
+		    resp.setCharacterEncoding("UTF-8");
+		    String url = req.getRequestURI();
+		    
+		    if (url.contains("/admin/category/insert")) {
+		        // Lấy dữ liệu từ form
+		        String categoryname = req.getParameter("categoryname");
+		        int status = Integer.parseInt(req.getParameter("status"));
+		        String images = req.getParameter("images");
 
-			// dua vao model
-			CategoryModel category = new CategoryModel();
-			category.setCategoryname(categoryname);
-			category.setStatus(status);
+		        // Tạo đối tượng CategoryModel để lưu dữ liệu
+		        CategoryModel category = new CategoryModel();
+		        category.setCategoryname(categoryname);
+		        category.setStatus(status);
 
-			// xu ly upload file
-			String fname = "";
-			String uploadPath = "C:\\WebProgramming\\upload";
-			File uploadDir = new File(uploadPath);
-			if (!uploadDir.exists()) {
-				uploadDir.mkdir();
-			}
-			try {
-				Part part = req.getPart("images1");
-				if (part.getSize() > 0) {
-					String filename = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-					// doi ten file
-					int index = filename.lastIndexOf(".");
-					String ext = filename.substring(index + 1);
-					fname = System.currentTimeMillis() + "." + ext;
+		        // Xử lý upload file hình ảnh
+		        String fname = "";
+		        String uploadPath = "C:\\WebProgramming\\upload"; // Đường dẫn upload file
+		        File uploadDir = new File(uploadPath);
+		        if (!uploadDir.exists()) {
+		            uploadDir.mkdir();
+		        }
+		        try {
+		            Part part = req.getPart("images1");
+		            if (part.getSize() > 0) {
+		                String filename = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+		                int index = filename.lastIndexOf(".");
+		                String ext = filename.substring(index + 1);
+		                fname = System.currentTimeMillis() + "." + ext; // Tạo tên file mới để tránh trùng lặp
 
-					// upload file
-					part.write(uploadPath + "/" + fname);
-					// ghi ten file vao data
-					category.setImages(fname);
-				} else if (images != null) {
-					category.setImages(images);
-				} else {
-					category.setImages("avata.png");
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			// truyen model vao insert
-			cateService.insert(category);
+		                // Upload file
+		                part.write(uploadPath + "/" + fname);
+		                category.setImages(fname); // Lưu tên file vào database
+		            } else if (images != null) {
+		                category.setImages(images);
+		            } else {
+		                category.setImages("avata.png"); // Nếu không có hình ảnh thì để mặc định
+		            }
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
 
-			// tra ve view
-			resp.sendRedirect(req.getContextPath() + "/admin/categories");
+		        // Gọi service để lưu dữ liệu
+		        cateService.insert(category);
 
-		} else if (url.contains("/admin/category/update")) {
-			try {
-				// Lấy dữ liệu từ form
-				int categoryid = Integer.parseInt(req.getParameter("categoryid"));
-				String categoryname = req.getParameter("categoryname");
-				int status = Integer.parseInt(req.getParameter("status"));
+		        // Redirect về trang danh sách
+		        resp.sendRedirect(req.getContextPath() + "/admin/categories");
 
-				// Tạo đối tượng CategoryModel và gán các giá trị
-				CategoryModel category = new CategoryModel();
-				category.setCategoryid(categoryid);
-				category.setCategoryname(categoryname);
-				category.setStatus(status);
+		    } else if (url.contains("/admin/category/update")) {
+		        // Lấy dữ liệu từ form
+		        String categoryname = req.getParameter("categoryname");
+		        int status = Integer.parseInt(req.getParameter("status"));
+		        String images = req.getParameter("images");
+		        int id = Integer.parseInt(req.getParameter("categoryid")); 
 
-				// Lấy thông tin danh mục cũ để so sánh
-				CategoryModel cateold = cateService.findById(categoryid);
-				String fileold = cateold.getImages(); // Lấy tên ảnh cũ để giữ lại nếu không có ảnh mới
+		        // Lấy dữ liệu sản phẩm cũ từ database
+		        CategoryModel cateOld = cateService.findById(id);
+		        String fileOld = cateOld.getImages(); 
 
-				// Kiểm tra nếu có ảnh mới được upload
-				Part part = req.getPart("images1");
-				if (part != null && part.getSize() > 0) {
-					// Xử lý upload file mới
-					String filename = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-					int index = filename.lastIndexOf(".");
-					String ext = filename.substring(index + 1);
-					String fname = System.currentTimeMillis() + "." + ext;
+		        // Tạo đối tượng CategoryModel để cập nhật
+		        CategoryModel category = new CategoryModel();
+		        category.setCategoryname(categoryname);
+		        category.setStatus(status);
+		        category.setCategoryid(id); 
 
-					// Upload file
-					String uploadPath = "C:\\WebProgramming\\upload";
-					File uploadDir = new File(uploadPath);
-					if (!uploadDir.exists()) {
-						uploadDir.mkdir();
-					}
-					part.write(uploadPath + "/" + fname);
+		       
+		        String fname = "";
+		        String uploadPath = Constants.DIR;
+		        File uploadDir = new File(uploadPath);
+		        if (!uploadDir.exists()) {
+		            uploadDir.mkdir();
+		        }
 
-					// Ghi tên file mới vào đối tượng danh mục
-					category.setImages(fname);
-				} else {
-					// Nếu không upload ảnh mới, giữ lại ảnh cũ
-					category.setImages(fileold);
-				}
+		        try {
+		            Part part = req.getPart("images1");
+		            if (part.getSize() > 0) {
+		                String filename = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+		                int index = filename.lastIndexOf(".");
+		                String ext = filename.substring(index + 1);
+		                fname = System.currentTimeMillis() + "." + ext;
 
-				// Cập nhật danh mục vào cơ sở dữ liệu
-				cateService.update(category);
+		                // Upload file
+		                part.write(uploadPath + "/" + fname);
 
-				// Redirect về trang danh sách danh mục
-				resp.sendRedirect(req.getContextPath() + "/admin/categories");
-			} catch (Exception e) {
-				e.printStackTrace();
-				// Bạn có thể xử lý lỗi và trả về thông báo cho người dùng
-			}
-		}
+		                // Lưu tên file vào đối tượng
+		                category.setImages(fname);
+		            } else if (images == null || images.trim().isEmpty()) {
+		                // Giữ hình ảnh cũ nếu không có hình mới
+		                category.setImages(fileOld);
+		            } else {
+		                category.setImages(images);
+		            }
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+
+		        // Gọi service để cập nhật dữ liệu sản phẩm
+		        cateService.update(category);
+
+		        // Redirect về trang danh sách sản phẩm
+		        resp.sendRedirect(req.getContextPath() + "/admin/categories");
+		    }
 	}
 
 }
